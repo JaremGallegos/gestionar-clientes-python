@@ -11,5 +11,8 @@ setup(
     packages = find_packages(where = "src"),
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    url = ""
+    url = "https://github.com/JaremGallegos/gestionar-clientes-python.git",
+    author = "JaremGallegos",
+    author_email = "73142526@continental.edu.pe",
+    license = "MIT"
 )
