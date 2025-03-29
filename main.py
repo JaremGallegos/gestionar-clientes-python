@@ -1,4 +1,5 @@
 from src.view.form_principal import FormPrincipalDesign
+from src.view.form_login import FormLoginDesign
 try:
     from urllib.request import urlopen, urlretrieve
     from PIL import Image, ImageTk
@@ -14,5 +15,5 @@ except Exception as e:
     import os 
     os.system("pip install -r requirements.txt")
 
-app = FormPrincipalDesign()
-app.mainloop()
+login = FormLoginDesign()
+login.mainloop()    

@@ -1,6 +1,7 @@
 from customtkinter import CTk
 
 class UtilVentana:
+    @staticmethod
     def centrar_ventana(ventana: CTk, app_ancho, app_largo):
         screen_ancho = ventana.winfo_screenwidth()
         screen_largo = ventana.winfo_screenheight()
