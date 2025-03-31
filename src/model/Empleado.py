@@ -1,5 +1,5 @@
 from __future__ import annotations
-from src.model import CategoriaLaboral
+from src.model.CategoriaLaboral import CategoriaLaboral
 from abc import ABC, abstractmethod
 from typing import Optional
 

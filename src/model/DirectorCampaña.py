@@ -1,5 +1,6 @@
 from __future__ import annotations
-from src.model import Empleado, CategoriaLaboral
+from src.model.Empleado import Empleado
+from src.model.CategoriaLaboral import CategoriaLaboral
 from typing import Optional
 
 class DirectorCampaña(Empleado):

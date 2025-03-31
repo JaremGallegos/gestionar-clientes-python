@@ -1,5 +1,6 @@
 from __future__ import annotations
-from src.model import NotaConceptual, Empleado
+from src.model.NotaConceptual import NotaConceptual 
+from src.model.Empleado import Empleado
 from datetime import date
 
 class Idea(NotaConceptual):

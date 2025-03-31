@@ -1,15 +1,23 @@
+from __future__ import annotations
 from datetime import date
-from src.model import Cliente, Pago, Anuncio, Gasto, NotaConceptual, Empleado
+from src.model.Cliente import Cliente
+from src.model.Pago import Pago
+from src.model.Anuncio import Anuncio
+from src.model.Gasto import Gasto
+from src.model.NotaConceptual import NotaConceptual
+from src.model.Empleado import Empleado
 from typing import Optional, List
 
 class Campaña:
     def __init__(self, 
+                 id: int,
                  titulo: str, 
                  fecha_inicio: date, 
                  fecha_fin_prevista: date,
                  costes_estimados: float,
                  presupuesto: float,
                  cliente: Cliente) -> None:
+        self.__id = id
         self.__titulo = titulo
         self.__fecha_inicio = fecha_inicio
         self.__fecha_fin_prevista = fecha_fin_prevista
@@ -28,6 +36,14 @@ class Campaña:
         
         # Registrar esta campaña en el cliente
         cliente.registrar_campana(self)
+        
+    @property
+    def id(self) -> int:
+        return self.__id
+    
+    @id.setter
+    def id(self, id: int) -> None:
+        self.__id = id
         
     @property
     def titulo(self) -> str:
@@ -123,3 +139,10 @@ class Campaña:
     
     def agregar_empleado(self, empleado: Empleado) -> None:
         self.__empleados.append(empleado) 
+        
+    @classmethod
+    def from_dict(clas, data: dict) -> Campaña:
+        pass
+    
+    def to_dict(self):
+        pass
