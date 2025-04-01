@@ -1,7 +1,9 @@
 from __future__ import annotations
-from src.model.CategoriaLaboral import CategoriaLaboral
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.model.CategoriaLaboral import CategoriaLaboral    
 
 class Empleado(ABC):
     def __init__(self, nombre: str, email: str, rol: str, categoria:Optional[CategoriaLaboral] = None) -> None:

@@ -1,12 +1,14 @@
 from __future__ import annotations
 from datetime import date
-from src.model.Cliente import Cliente
-from src.model.Pago import Pago
-from src.model.Anuncio import Anuncio
-from src.model.Gasto import Gasto
-from src.model.NotaConceptual import NotaConceptual
-from src.model.Empleado import Empleado
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.model.Cliente import Cliente
+    from src.model.Pago import Pago
+    from src.model.Anuncio import Anuncio
+    from src.model.Gasto import Gasto
+    from src.model.NotaConceptual import NotaConceptual
+    from src.model.Empleado import Empleado
 
 class Campaña:
     def __init__(self, 
