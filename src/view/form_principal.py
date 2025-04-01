@@ -5,6 +5,10 @@ from src.config import COLOR_BARRA_SUPERIOR, COLOR_MENU_LATERAL, COLOR_CUERPO_PR
 from src.util.util_ventana import UtilVentana as util_ventana
 from src.util.util_imagenes import UtilImagen as util_imagen
 from src.view.panels.panel_campaña import PanelCampañaDesign
+from src.view.panels.panel_cliente import PanelClienteDesign
+from src.view.panels.panel_empleado import PanelEmpleadoDesign
+from src.view.panels.panel_categoria import PanelCategoriaLaboralDesign
+from src.view.panels.panel_nomina import PanelNominaDesign
 import customtkinter as ctk
 
 ctk.set_appearance_mode("System")
@@ -51,18 +55,20 @@ class FormPrincipalDesign(ctk.CTk):
         ancho, alto = 20, 2
         self._label_perfil = ctk.CTkLabel(self._menu_lateral, image = self._perfil, bg_color = COLOR_MENU_LATERAL, fg_color = COLOR_MENU_LATERAL, text = "")
         self._label_perfil.pack(side = ctk.TOP, pady = 10)
-        self._button_dashboard = ctk.CTkButton(self._menu_lateral)
-        self._button_profile = ctk.CTkButton(self._menu_lateral)
-        self._button_picture = ctk.CTkButton(self._menu_lateral)
-        self._button_info = ctk.CTkButton(self._menu_lateral)
-        self._button_settings = ctk.CTkButton(self._menu_lateral)
+        self._button_inicio = ctk.CTkButton(self._menu_lateral)
+        self._button_campaña = ctk.CTkButton(self._menu_lateral)
+        self._button_cliente = ctk.CTkButton(self._menu_lateral)
+        self._button_empleado = ctk.CTkButton(self._menu_lateral)
+        self._button_categoria = ctk.CTkButton(self._menu_lateral)
+        self._button_nomina = ctk.CTkButton(self._menu_lateral)
         
         _buttons_info = [
-            ("Inicio", "\uf013", self._button_settings, self.form_controles_cuerpo),
-            ("Campaña", "\uf109", self._button_dashboard, self.open_panel_construccion),
-            ("Cliente", "\uf007", self._button_profile, self.open_panel_construccion),
-            ("Empleado", "\uf03e", self._button_picture, self.open_panel_construccion),
-            ("Info", "\uf129", self._button_info, self.open_panel_construccion)
+            ("Inicio", "\uf013", self._button_inicio, self.form_controles_cuerpo),
+            ("Campaña", "\uf109", self._button_campaña, self.open_panel_campaña),
+            ("Cliente", "\uf007", self._button_cliente, self.open_panel_cliente),
+            ("Empleado", "\uf03e", self._button_empleado, self.open_panel_empleado),
+            ("Categoria", "\uf129", self._button_categoria, self.open_panel_categoria),
+            ("Nomina", "\uf129", self._button_nomina, self.open_panel_nomina)
         ]
         
         for text, icon, button, comando in _buttons_info:
@@ -94,10 +100,26 @@ class FormPrincipalDesign(ctk.CTk):
         else:
             self._menu_lateral.pack(side = ctk.LEFT, fill = 'y')
         
-    def open_panel_construccion(self):
+    def open_panel_campaña(self):
         self.limpiar_panel(self._cuerpo_principal)
         PanelCampañaDesign(self._cuerpo_principal)
+    
+    def open_panel_cliente(self):
+        self.limpiar_panel(self._cuerpo_principal)
+        PanelClienteDesign(self._cuerpo_principal)    
+
+    def open_panel_empleado(self):
+        self.limpiar_panel(self._cuerpo_principal)
+        PanelEmpleadoDesign(self._cuerpo_principal)
+    
+    def open_panel_categoria(self):
+        self.limpiar_panel(self._cuerpo_principal)
+        PanelCategoriaLaboralDesign(self._cuerpo_principal)
         
+    def open_panel_nomina(self):
+        self.limpiar_panel(self._cuerpo_principal)
+        PanelNominaDesign(self._cuerpo_principal)
+    
     def limpiar_panel(self, panel: CTk):
         for widget in panel.winfo_children():
             widget.destroy()
