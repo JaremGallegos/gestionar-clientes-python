@@ -1,7 +1,7 @@
 import os, json
 from src.model.Empleado import Empleado
 from src.model.DirectorCampaña import DirectorCampaña
-from typing import List, Any
+from typing import List, Any, Dict
 
 class EmpleadoController:
     def __init__(self, json_file: str = "./data/empleados.json") -> None:
@@ -20,3 +20,24 @@ class EmpleadoController:
                 rol = item.get("rol", "")
                 if rol == "Director de Campaña":
                     empleados.append(DirectorCampaña.fro)
+    
+    def _agregar_empleado(self, empleado: Empleado) -> None:
+        """
+        UC14: Agregar nuevo trabajador.
+        Flujo Principal: Ingresar los datos personales y profesionales del empleado.
+        """
+        pass
+    
+    def _modificar_empleado(self, id_empleado: Any, nuevos_datos: Dict[str, Any]) -> None:
+        """
+        UC14: Modificar datos de un trabajador.
+        Flujo Principal: Actualizar los datos del empleado.
+        """
+        pass
+    
+    def _eliminar_empleado(self, id_empleado: Any) -> None:
+        """
+        UC14: Eliminar un trabajador.
+        Flujo Principal: Eliminar el registro del empleado.
+        """
+        pass
