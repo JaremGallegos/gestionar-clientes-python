@@ -1,7 +1,7 @@
-from src.model.Empleado import Empleado
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from src.model.Empleado import Empleado   
     from src.model.CategoriaLaboral import CategoriaLaboral
 
 class PersonalContable(Empleado):

@@ -3,7 +3,7 @@ from src.model.Empleado import Empleado
 from typing import List, Any, Dict
 from datetime import date
 
-class NominaController:
+class IdeaController:
     def __init__(self) -> None:
         pass
     
