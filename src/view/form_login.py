@@ -4,6 +4,7 @@ from src.config import COLOR_LOGIN_MARCA, COLOR_NEUTRO_NEGRO, COLOR_CUERPO_ALTER
 from src.util.util_ventana import UtilVentana as util_ventana
 from src.util.util_imagenes import UtilImagen as util_imagen
 from src.view.form_principal import FormPrincipalDesign
+from src.view.form_signup import FormSignupDesign
 import customtkinter as ctk
 
 ctk.set_appearance_mode("System")
@@ -50,7 +51,10 @@ class FormLoginDesign(ctk.CTk):
                                             fg_color = COLOR_CUERPO_PRINCIPAL, command = self.verificar)
         self._button_inicio.pack(fill = ctk.X, padx = 20, pady = 20)
         self._button_inicio.bind("<Return>", (lambda event: self.verificar()))
-
+        self._button_registrar = ctk.CTkButton(self._fill_frame, text = "¿Desea Registrarse?", font = ('Times', 15), bg_color = COLOR_LOGIN_MARCA,
+                                               fg_color = COLOR_CUERPO_PRINCIPAL, command = self.abrir_ventana_registrar)
+        self._button_registrar.pack(fill = ctk.X, padx = 20, pady = 20)
+        
     def verificar(self):
         usuario = self._text_usuario.get()
         clave = self._text_clave.get()
@@ -60,3 +64,6 @@ class FormLoginDesign(ctk.CTk):
             FormPrincipalDesign().mainloop()
         else:
             messagebox.showerror(message = "La contraseña o usuario son incorrectas", title = "Error")
+    
+    def abrir_ventana_registrar(self):
+        FormSignupDesign().transient(self)

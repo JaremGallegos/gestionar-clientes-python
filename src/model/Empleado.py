@@ -41,3 +41,24 @@ class Empleado(ABC):
     @categoria.setter
     def categoria(self, categoria: CategoriaLaboral) -> None:
         self._categoria = categoria
+        
+    @abstractmethod
+    def from_dict(cls, data: dict) -> Empleado:
+        """
+        Crea una instancia de Cliente a partir de un diccionario.
+        Se espera que 'data' contenga las claves: id, nombre, email, categoria y categoria_laboral.
+        """
+        return cls(
+            id = data["id"],
+            nombre = data["nombre"],
+            direccion = data["email"],
+            rol = data["categoria"],
+            categoriaLaboral = data["categoria_laboral"]
+        )
+    
+    @abstractmethod
+    def to_dict(self):
+        """
+        Retorna un diccionario con la información del cliente.
+        """
+        pass
