@@ -58,11 +58,11 @@ class FormPrincipalDesign(ctk.CTk):
         self._button_settings = ctk.CTkButton(self._menu_lateral)
         
         _buttons_info = [
-            ("Dahsboard", "\uf109", self._button_dashboard, self.open_panel_construccion),
-            ("Profile", "\uf007", self._button_profile, self.open_panel_construccion),
-            ("Picture", "\uf03e", self._button_picture, self.open_panel_construccion),
-            ("Info", "\uf129", self._button_info, self.open_panel_construccion),
-            ("Settings", "\uf013", self._button_settings, self.open_panel_construccion),
+            ("Inicio", "\uf013", self._button_settings, self.form_controles_cuerpo),
+            ("Campaña", "\uf109", self._button_dashboard, self.open_panel_construccion),
+            ("Cliente", "\uf007", self._button_profile, self.open_panel_construccion),
+            ("Empleado", "\uf03e", self._button_picture, self.open_panel_construccion),
+            ("Info", "\uf129", self._button_info, self.open_panel_construccion)
         ]
         
         for text, icon, button, comando in _buttons_info:
