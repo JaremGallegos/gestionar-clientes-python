@@ -1,7 +1,10 @@
-from customtkinter import CTkFont
+from customtkinter import CTk, CTkFont
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.config import COLOR_BARRA_SUPERIOR, COLOR_MENU_LATERAL, COLOR_CUERPO_PRINCIPAL, COLOR_MENU_CURSOR_ENCIMA
 from src.util.util_ventana import UtilVentana as util_ventana
 from src.util.util_imagenes import UtilImagen as util_imagen
+from src.view.panels.panel_campaña import PanelCampañaDesign
 import customtkinter as ctk
 
 ctk.set_appearance_mode("System")
@@ -55,23 +58,23 @@ class FormPrincipalDesign(ctk.CTk):
         self._button_settings = ctk.CTkButton(self._menu_lateral)
         
         _buttons_info = [
-            ("Dahsboard", "\uf109", self._button_dashboard),
-            ("Profile", "\uf007", self._button_profile),
-            ("Picture", "\uf03e", self._button_picture),
-            ("Info", "\uf129", self._button_info),
-            ("Settings", "\uf013", self._button_settings),
+            ("Dahsboard", "\uf109", self._button_dashboard, self.open_panel_construccion),
+            ("Profile", "\uf007", self._button_profile, self.open_panel_construccion),
+            ("Picture", "\uf03e", self._button_picture, self.open_panel_construccion),
+            ("Info", "\uf129", self._button_info, self.open_panel_construccion),
+            ("Settings", "\uf013", self._button_settings, self.open_panel_construccion),
         ]
         
-        for text, icon, button in _buttons_info:
-            self.confi_button_menu(button, text, icon, font_awesome, ancho, alto)
+        for text, icon, button, comando in _buttons_info:
+            self.confi_button_menu(button, text, icon, font_awesome, ancho, alto, comando)
     
     def form_controles_cuerpo(self):
         label = ctk.CTkLabel(self._cuerpo_principal, image = self._logo, bg_color = COLOR_CUERPO_PRINCIPAL)
         label.place(x = 0, y = 0, relwidth = 1, relheight = 1)
     
-    def confi_button_menu(self, button: ctk.CTkButton, text, icon, font_awesome, ancho, alto):
+    def confi_button_menu(self, button: ctk.CTkButton, text, icon, font_awesome, ancho, alto, comando):
         button.configure(text = f" {icon}  {text}",  anchor = "w", font = font_awesome,
-                        bg_color = COLOR_MENU_LATERAL, fg_color = COLOR_MENU_LATERAL)
+                        bg_color = COLOR_MENU_LATERAL, fg_color = COLOR_MENU_LATERAL, command = comando)
         button.pack(side = ctk.TOP)
         self.event_hover_bind(button)
     
@@ -90,3 +93,11 @@ class FormPrincipalDesign(ctk.CTk):
             self._menu_lateral.pack_forget()
         else:
             self._menu_lateral.pack(side = ctk.LEFT, fill = 'y')
+        
+    def open_panel_construccion(self):
+        self.limpiar_panel(self._cuerpo_principal)
+        PanelCampañaDesign(self._cuerpo_principal)
+        
+    def limpiar_panel(self, panel: CTk):
+        for widget in panel.winfo_children():
+            widget.destroy()
