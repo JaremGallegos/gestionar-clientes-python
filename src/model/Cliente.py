@@ -1,6 +1,8 @@
 from __future__ import annotations
-from src.model.Campaña import Campaña
-from typing import Optional, List
+from typing import Optional, List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.model.Campaña import Campaña
 
 class Cliente:
     def __init__(self, id: int, nombre: str, direccion: str, detalle_contacto: str) -> None:
@@ -73,5 +75,5 @@ class Cliente:
             "nombre": self.__nombre,
             "direccion": self.__direccion,
             "detalle_contacto": self.__detalle_contacto,
-            "campaña": self.__campanas
+            "campaña": []
         }   
