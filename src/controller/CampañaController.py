@@ -64,74 +64,119 @@ class CampañaController:
         UC3: Registrar Finalización de Campaña.
         Flujo Principal: Seleccionar la campaña, confirmar finalización y actualizar su estado a 'Finalizada'.
         """
-        campana = self._buscar
-        for campana in self.campanas:
-            if campana.estado != "En ejecución":
-                raise ValueError("La campaña no se encuentra en ejecución.")
-            campana.estado = "Finalizada"
-            campana.fecha_fin_prevista = fecha_finalizacion
-            self._guardar_campanas()
-            return
-        raise LookupError("Campaña no encontrada.")
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para finalizar.")
+            return False
+        
+        if campana.estado != "En ejecucion":
+            logging.warning(f"Campaña con id {campana_id} no se encuentra en ejecución.")
+            
+        campana.estado = "Finalizado"
+        setattr(campana, 'fecha_cierre', fecha_cierre)
+        self._guardar_campanas()
+        logging.info(f"Campaña finalizada: {campana.to_dict()} con fecha de cierre {fecha_cierre}")
+        return True
+        
     
-    def registrar_pago(self, id_campana: Any, pago: Pago) -> None:
+    def registrar_pago(self, campana_id: int, pago: Pago) -> bool:
         """
         UC4: Registrar Pago de Campaña.
         Flujo Principal: Ingresar monto y fecha del pago, asociándolo a la campaña.
         """
-        for campana in self.campanas:
-            if campana.id == id_campana:
-                if pago.monto <= 0:
-                    raise ValueError("Monto de pago inválido.")
-                campana.agregar_pago(pago)
-                self._guardar_campanas()
-                return
-        raise LookupError("Campaña no encontrada.")
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para registrar pago.")
+            return False
+        
+        campana.agregar_pago(pago)
+        self._guardar_campanas()
+        logging.info(f"Pago registrado en campaña {campana_id}: monto {pago.monto}, fecha {pago.fecha_pago}")
+        return True
     
-    def consultar_pagos(self, id_campana: Any) -> List[Pago]:
+    def consultar_pagos(self, campana_id: int) -> List[Pago]:
         """
         UC5: Consultar Pagos de Campaña.
         Flujo Principal: Recuperar la lista de pagos asociados a la campaña.
         """
-        for campana in self.campanas:
-            if campana.id == id_campana:
-                return campana.pagos
-        raise LookupError("Campaña no encontrada.")
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para consulta de pagos.")
+            return[]
+        return campana.pagos
     
-    def asignar_empleados(self, id_campana: Any, empleados: List[Empleado]) -> None:
+    def asignar_empleados(self, campana_id: int, empleados: List[Empleado]) -> bool:
         """
         UC6: Asignar Empleados a Campaña.
         Flujo Principal: Seleccionar empleados disponibles y asignarlos a la campaña.
         """
-        for campana in self.campanas:
-            if campana.id == id_campana:
-                for emp in empleados:
-                    if emp not in campana.empleados:
-                        campana.agregar_empleado(emp)
-                self._guardar_campanas()
-                return
-        raise LookupError("Campaña no encontrada.")
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para asignar empleados.")
+            return False
+
+        for empleado in empleados:
+            if empleado not in campana.empleados:
+                campana.agregar_empleado(empleado)
+        
+        self._guardar_campanas()
+        logging.info(f"Empleados asignados a campaña {campana_id}: {[emp.nombre for emp in empleados]}")
+        return True
     
-    def registrar_empleado_contacto(self, id_campana: Any, empleado_contacto: PersonalContacto) -> None:
+    def registrar_empleado_contacto(self, campana_id: int, empleado: Empleado) -> bool:
         """
         UC7: Registrar Empleado de Contacto para Campaña.
         Flujo Principal: Designar un empleado (PersonalContacto) como contacto principal para la campaña.
         """
-        pass
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para asignar contacto.")
+            return False
+
+        # Asignar el empleado si no esta previamente asignado
+        if empleado not in campana.empleados:
+            campana.agregar_empleado(empleado)
+            
+        # Designar el empleado como contacto principal
+        setattr(campana, 'empleado_contacto', empleado)
+        self._guardar_campanas()
+        logging.info(f"Empleado {empleado.nombre} designado como contacto en campaña {campana_id}")
+        return True
     
-    def registrar_anuncio(self, id_campana: Any, anuncio: Anuncio) -> None:
+    def registrar_anuncio(self, campana_id: int, anuncio: Anuncio) -> bool:
         """
         UC8: Registrar Anuncio de Campaña.
         Flujo Principal: Ingresar la descripción del anuncio y asociarlo a la campaña.
         """
-        pass
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para registrar anuncio.")
+            return False
+        
+        campana.agregar_anuncio(anuncio)
+        self._guardar_campanas()
+        logging.info(f"Anuncio registrado en campaña {campana_id}: {anuncio.descripcion}")
+        return True
     
-    def finalizar_anuncio(self, id_campana: Any, id_anuncio: Any, fecha_finalizacion: date) -> None:
+    def registrar_finalizacion_anuncio(self, campana_id: int, anuncio_index: int) -> bool:
         """
         UC9: Registrar Finalización de Anuncio.
         Flujo Principal: Actualizar el estado del anuncio a 'Finalizado' y registrar la fecha.
         """
-        pass
+        campana = self._buscar_campana(campana_id)
+        if campana is None:
+            logging.warning(f"Campaña con id {campana_id} no encontrada para finalizar anuncio.")
+            return False
+        
+        if anuncio_index < 0 or anuncio_index >= len(campana.anuncios):
+            logging.warning(f"Indice de anuncio inválido para la campaña {campana_id}.")
+            return False
+        
+        anuncio = campana.anuncios[anuncio_index]
+        # anuncio.estado = "Finalizado"
+        self._guardar_campanas()
+        logging.info(f"Anuncio finalizado en campaña {campana_id}: {anuncio.descripcion}")
+        return True
     
     def registrar_gasto(self, campana_id: int, gasto: Gasto) -> bool:
         """
